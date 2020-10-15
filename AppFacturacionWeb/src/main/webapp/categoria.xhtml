@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        <!--comentario-->
+        <h:form id="form1">
+            <p:messages showDetail="true"/>
+            
+            
+            <p:panel header="Listado de Categorías" rendered="#{categoriaBean.categoria == null}">
+                
+                <p:commandButton value="Nuevo" action="#{categoriaBean.nuevo()}" update="form1"/>
+                <p:dataTable value="#{categoriaBean.categoriaList}" var="cat" id="dtCategorias"
+                             sortBy="#{cat.id}" sortOrder="descending"
+                             paginator="true" rows="5">
+                    <p:column headerText="Acciones" width="100">
+                        <p:commandButton icon="ui-icon-pencil" action="#{categoriaBean.seleccionar(cat)}" update="form1"/>
+                        <p:commandButton icon="ui-icon-trash" action="#{categoriaBean.eliminar(cat)}" update="dtCategorias"/>
+                    </p:column>
+                    
+                    <p:column headerText="Id." width="100" sortBy="#{cat.id}">
+                        <h:outputLabel value="#{cat.id}"/>
+                    </p:column>
+                    <p:column headerText="Nombre" sortBy="#{cat.nombre}" filterBy="#{cat.nombre}" filterMatchMode="exact">
+                        <h:outputLabel value="#{cat.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Estado" width="100" sortBy="#{cat.estado}">
+                        <h:outputLabel value="#{cat.estado.toString()=='A' ? 'ACTIVO' : 'INACTIVO'}"/>
+                    </p:column>                
+                </p:dataTable>
+
+            </p:panel>
+            
+            <p:panel header="Ingreso de Categoría" rendered="#{categoriaBean.categoria !=null }">
+                <!--esto me sire para un formulario-->
+                <h:panelGrid columns="3" id="panelIngreso">
+                    <p:outputLabel value="Id:" for="txtId"/>
+                    <p:inputNumber id="txtId" value="#{categoriaBean.categoria.id}" disabled="#{categoriaBean.modoEdicion}" 
+                                   required="true" requiredMessage="Campo obligatorio" decimalPlaces="0">
+                        <p:ajax event="change" listener="#{categoriaBean.validarId()}" update="panelIngreso"/>
+                    </p:inputNumber>
+                    
+                    <p:message for="txtId"/>
+                    
+                    
+                    <p:outputLabel value="Nombre:" for="txtNombre"/>
+                    <p:inputText id="txtNombre" value="#{categoriaBean.categoria.nombre}" required="true"/>
+                    <p:message for="txtNombre"/>
+                    
+                    <p:outputLabel value="Estado:" for="txtEstado"/>
+                    <p:selectOneRadio id="txtEstado" value="#{categoriaBean.categoria.estado}" required="true">
+                        <f:selectItem itemLabel="Activo" itemValue="A"/>
+                        <f:selectItem itemLabel="Inactivo" itemValue="I"/>
+                    </p:selectOneRadio>
+                    <p:message for="txtEstado"/>
+                    
+                    
+                    <p:commandButton value="Grabar" action="#{categoriaBean.grabar()}" update="form1"/>
+                    <p:commandButton value="Cancelar" action="#{categoriaBean.cancelar()}" update="form1" immediate="true"/>
+                </h:panelGrid>
+            </p:panel>
+            
+            
+        </h:form>
+    </h:body>
+</html>
+
