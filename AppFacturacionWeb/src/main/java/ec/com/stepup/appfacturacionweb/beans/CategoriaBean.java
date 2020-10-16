@@ -16,6 +16,7 @@ import javax.faces.view.ViewScoped;
 public class CategoriaBean implements Serializable {
 
     private List<Categoria> categoriaList;
+    private List<Categoria> categoriaActivosList;
     private Categoria categoria;
     @EJB
     private CategoriaFacadeLocal categoriaFacadeLocal;      //segundo
@@ -27,6 +28,7 @@ public class CategoriaBean implements Serializable {
     @PostConstruct
     public void init() {     //tercero
         categoriaList = categoriaFacadeLocal.findAll();
+        categoriaActivosList  = categoriaFacadeLocal.findActivos();
     }
 
     public List<Categoria> getCategoriaList() {
@@ -99,5 +101,15 @@ public class CategoriaBean implements Serializable {
                     .addMessage("form1:txtId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Id ya existe", "Id ya existe"));
         }
     }
+
+    public List<Categoria> getCategoriaActivosList() {
+        return categoriaActivosList;
+    }
+
+    public void setCategoriaActivosList(List<Categoria> categoriaActivosList) {
+        this.categoriaActivosList = categoriaActivosList;
+    }
+    
+    
 
 }

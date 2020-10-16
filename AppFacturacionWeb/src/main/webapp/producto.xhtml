@@ -9,7 +9,12 @@
     </h:head>
     <h:body>
         <h:form id="form1">
-            <p:growl showDetail="true"/>
+            <p:growl showDetail="true" id="msg1"/>
+            <p:confirmDialog global="true">
+                <p:commandButton value="Si" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+            
             
             <p:panel header="Listado de Productos" rendered="#{productoBean.producto == null}">
                 <p:commandButton value="Nuevo" icon="ui-icon-plus" action="#{productoBean.nuevo()}" update="form1"/>
@@ -18,7 +23,9 @@
                     
                     <p:column headerText="Acciones" width="10%" style="text-align: center">
                         <p:commandButton icon="ui-icon-pencil" action="#{productoBean.setProducto(prod)}" update="form1"/>
-                        <p:commandButton icon="ui-icon-trash"/>
+                        <p:commandButton icon="ui-icon-trash" action="#{productoBean.eliminar(prod)}" update="dtProductos, form1:msg1">
+                            <p:confirm header="Confirmación" message="Confirma que desea eliminar el producto ?"/>
+                        </p:commandButton>
                     </p:column>
                     
                     <p:column headerText="Id." width="10%">
@@ -63,7 +70,7 @@
                                      converter="omnifaces.SelectItemsConverter"
                                      requiredMessage="Campo obligatorio.">
                         <f:selectItem itemLabel="--SELECCIONE--" noSelectionOption="true"/>
-                        <f:selectItems value="#{categoriaBean.categoriaList}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}"/>
+                        <f:selectItems value="#{categoriaBean.categoriaActivosList}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}"/>
                     </p:selectOneMenu> 
                     <p:message for="selCategoria"/>
                     
