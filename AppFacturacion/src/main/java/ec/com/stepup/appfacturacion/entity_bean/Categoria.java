@@ -87,6 +87,15 @@ public class Categoria implements Serializable {
         return "ec.com.stepup.appfacturacion.entity_bean.Categoria[ id=" + id + " ]";
     }
 
+
+    public List<Producto> getProductoList() {
+        return productoList;
+    }
+
+    public void setProductoList(List<Producto> productoList) {
+        this.productoList = productoList;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -109,14 +118,6 @@ public class Categoria implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public List<Producto> getProductoList() {
-        return productoList;
-    }
-
-    public void setProductoList(List<Producto> productoList) {
-        this.productoList = productoList;
     }
     
 }
