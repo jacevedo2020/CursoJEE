@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ec.com.stepup.appfacturacion.entity_bean;
 
 import java.io.Serializable;
@@ -19,10 +24,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ *
+ * @author admin
+ */
 @Entity
 @Table(name = "factura")
 public class Factura implements Serializable {
@@ -126,12 +134,12 @@ public class Factura implements Serializable {
     public String toString() {
         return "ec.com.stepup.appfacturacion.entity_bean.Factura[ id=" + id + " ]";
     }
-    
-    public BigDecimal getSubtotal(){
-        return BigDecimal.valueOf(detalleFacturaList.stream().mapToDouble(d->d.getSubtotal().doubleValue()).sum());
-    }  
-    
-    public BigDecimal getTotal(){
+
+    public BigDecimal getSubtotal() {
+        return BigDecimal.valueOf(detalleFacturaList.stream().mapToDouble(d -> d.getSubtotal().doubleValue()).sum());
+    }
+
+    public BigDecimal getTotal() {
         return getSubtotal().multiply(BigDecimal.valueOf(1.12));
     }
 }
