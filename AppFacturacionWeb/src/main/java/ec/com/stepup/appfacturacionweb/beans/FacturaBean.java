@@ -4,11 +4,14 @@ import ec.com.stepup.appfacturacion.entity_bean.Factura;
 import ec.com.stepup.appfacturacion.session_bean.FacturaFacadeLocal;
 import ec.com.stepup.appfacturacionweb.util.Mensaje;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.PrimeFaces;
 
 @Named(value = "facturaBean")
 @ViewScoped
@@ -61,6 +64,13 @@ public class FacturaBean implements Serializable {
         this.factura = factura;
     }
     
+    public void abrirSeleccionCliente(){
+        Map<String, Object> opciones = new HashMap<>();
+        opciones.put("contentHeigth", 500);
+        opciones.put("contentWidth", 800);
+        opciones.put("modal", true);
+        PrimeFaces.current().dialog().openDynamic("seleccionCliente", opciones, null);
+    }
     
 
 }
