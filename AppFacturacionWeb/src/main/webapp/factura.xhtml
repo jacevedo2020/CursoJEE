@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Factura</title>
     </h:head>
@@ -11,6 +12,10 @@
         <ui:composition template="plantilla.xhtml">
             <ui:define name="contenido">
                 <h:form id="form1">
+                    <p:growl globalOnly="true">
+                        <p:autoUpdate/>
+                    </p:growl>
+                    
                     <p:panel rendered="#{facturaBean.factura == null}" header="Listado de Facturas">
                         <p:commandButton icon="ui-icon-plus" value="Nuevo" action="#{facturaBean.nuevo()}" update="form1"/>
                         <p:dataTable value="#{facturaBean.facturaList}" var="fac" emptyMessage="No existen datos.">
@@ -31,28 +36,99 @@
                             </p:column>                       
                         </p:dataTable>
                     </p:panel>
-                    
-                    
+
+
                     <p:panel rendered="#{facturaBean.factura !=null}" header="Creación de Factura">
-                        <h:panelGrid columns="3">
+                        <h:panelGrid id="panelCabFactura" columns="3">
                             <p:outputLabel value="Id." for="txtId"/>
                             <p:inputText id="txtId" value="#{facturaBean.factura.id}" disabled="true"/>
                             <p:message for="txtId"/>
-                            
+
                             <p:outputLabel value="Fecha:" for="txtFecha"/>
-                            <p:inputText id="txtFecha" value="#{facturaBean.factura.fecha}"/>
+                            <p:calendar id="txtFecha" value="#{facturaBean.factura.fecha}" required="true"/>
                             <p:message for="txtFecha"/>
-                            
-                            <p:commandButton icon="ui-icon-search" action="#{facturaBean.abrirSeleccionCliente()}"/>
+
+                            <p:outputLabel value="Cliente:"/>
+                            <p:commandButton icon="ui-icon-search" action="#{facturaBean.abrirSeleccionCliente()}" process="@this">
+                                <p:ajax event="dialogReturn" listener="#{facturaBean.recibirCliente}" update="panelCabFactura"/>
+                            </p:commandButton>
+                            <p:spacer/>
+
+                            <p:outputLabel value="Cédula/RUC:"/>
+                            <p:outputLabel value="#{facturaBean.factura.cliente.cedula}"/>
+                            <p:spacer/>
+
+                            <p:outputLabel value="Nombre:"/>
+                            <p:outputLabel value="#{facturaBean.factura.cliente.nombresCompletos}"/>
+                            <p:spacer/>
+
+                            <p:outputLabel value="Dirección:"/>
+                            <p:outputLabel value="#{facturaBean.factura.cliente.direccion}"/>
+                            <p:spacer/>
+
+                            <p:outputLabel value="Teléfono:"/>
+                            <p:outputLabel value="#{facturaBean.factura.cliente.telefono}"/>
+                            <p:spacer/>
+
+                            <p:outputLabel value="Correo Electrónico:"/>
+                            <p:outputLabel value="#{facturaBean.factura.cliente.correo}"/>
+                            <p:spacer/>
+
                         </h:panelGrid>
+
+
+                        <h:panelGrid columns="9" id="panelDetalle">
+                            <p:outputLabel value="Producto:"/>
+
+                            <h:panelGrid>
+                                <p:selectOneMenu id="selProducto" value="#{facturaBean.detalleFactura.producto}" converter="omnifaces.SelectItemsConverter"
+                                                 required="true" requiredMessage="Campo obligatorio">
+                                    <f:selectItem itemLabel="SELECCIONE" noSelectionOption="false"/>
+                                    <f:selectItems value="#{productoBean.productosActivos}" var="prod" itemLabel="#{prod.nombre}" itemValue="#{prod}"/>
+                                    <p:ajax listener="#{facturaBean.seleccionarProducto()}" update="txtPrecioUnitario, txtSubtotal"/>
+                                </p:selectOneMenu>
+                                <p:message for="selProducto"/>
+                            </h:panelGrid>
+
+                            <p:outputLabel value="PVP:"/>
+                            <p:inputNumber id="txtPrecioUnitario" value="#{facturaBean.detalleFactura.producto.precio}" 
+                                           disabled="true" size="5"/>
+
+                            <p:outputLabel value="Cantidad:"/>
+                            <p:inputNumber value="#{facturaBean.detalleFactura.cantidad}" size="5"  minValue="1">
+                                <p:ajax event="change" update="txtSubtotal"/>
+                            </p:inputNumber>
+
+                            <p:outputLabel value="Subtotal:"/>
+                            <p:inputNumber id="txtSubtotal" value="#{facturaBean.detalleFactura.subtotal}" 
+                                           disabled="true" size="5"/>
+
+                            <p:commandButton icon="ui-icon-plus" action="#{facturaBean.agregarDetalle()}" update="dtDetalles, panelDetalle" process="panelDetalle"/>
+                        </h:panelGrid>
+
+                        <p:dataTable id="dtDetalles" value="#{facturaBean.factura.detalleFacturaList}" var="det" emptyMessage="No existen registros">
+                            <p:column headerText="Producto">
+                                <h:outputLabel value="#{det.producto.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Cantidad">
+                                <h:outputLabel value="#{det.cantidad}"/>
+                            </p:column>
+                            <p:column headerText="Precio Unitario">
+                                <h:outputLabel value="#{det.precio}"/>
+                            </p:column>
+                            <p:column headerText="Subtotal">
+                                <h:outputLabel value="#{det.subtotal}"/>
+                            </p:column>
+                        </p:dataTable>
+
 
                         <h:panelGrid columns="2">
                             <p:commandButton icon="ui-icon-disk" value="Grabar" action="#{facturaBean.grabar()}" update="form1"/>
                             <p:commandButton icon="ui-icon-close" value="Cancelar" action="#{facturaBean.init()}" update="form1" immediate="true"/>
                         </h:panelGrid>
-                        
-                        
-                        
+
+
+
                     </p:panel>
 
                 </h:form>

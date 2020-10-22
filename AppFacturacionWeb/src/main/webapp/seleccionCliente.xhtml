@@ -9,6 +9,9 @@
     <h:body>
         <h:form>
             <p:dataTable value="#{seleccionClienteBean.clienteList}" var="cli">
+                <p:column headerText="Seleccionar">
+                    <p:commandButton icon="ui-icon-circle-arrow-e" action="#{seleccionClienteBean.retornarCliente(cli)}"/>
+                </p:column>
                 <p:column headerText="Cédula">
                     <h:outputLabel value="#{cli.cedula}"/>
                 </p:column>

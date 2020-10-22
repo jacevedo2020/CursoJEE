@@ -5,6 +5,7 @@ import ec.com.stepup.appfacturacion.session_bean.ProductoFacadeLocal;
 import ec.com.stepup.appfacturacionweb.util.Mensaje;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -74,6 +75,9 @@ public class ProductoBean implements Serializable {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
-
+    
+    public List<Producto> getProductosActivos(){
+        return productoList.stream().filter(p->p.getEstado()=='A').collect(Collectors.toList());
+    }
     
 }

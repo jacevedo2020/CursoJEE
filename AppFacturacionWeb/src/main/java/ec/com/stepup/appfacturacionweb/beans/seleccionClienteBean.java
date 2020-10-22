@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import org.primefaces.PrimeFaces;
 
 @Named(value = "seleccionClienteBean")
 @RequestScoped
@@ -31,5 +32,8 @@ public class seleccionClienteBean {
         this.clienteList = clienteList;
     }
     
+    public void retornarCliente(Cliente cliente){
+        PrimeFaces.current().dialog().closeDynamic(cliente);
+    }
     
 }
