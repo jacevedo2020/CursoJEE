@@ -7,6 +7,7 @@ package ec.com.stepup.appfacturacion.entity_bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -141,5 +142,20 @@ public class Factura implements Serializable {
 
     public BigDecimal getTotal() {
         return getSubtotal().multiply(BigDecimal.valueOf(1.12));
+    }
+
+    public void agregarDetalle(DetalleFactura detalleFactura) {
+        if (detalleFacturaList == null) {
+            detalleFacturaList = new ArrayList<>();
+        }
+        detalleFactura.setFactura(this);
+        detalleFacturaList.add(detalleFactura);
+    }
+
+    public boolean esProductoDulicado(Producto producto) {
+        if (detalleFacturaList == null) {
+            return false;
+        }
+        return detalleFacturaList.stream().anyMatch(d -> d.getProducto().equals(producto));
     }
 }

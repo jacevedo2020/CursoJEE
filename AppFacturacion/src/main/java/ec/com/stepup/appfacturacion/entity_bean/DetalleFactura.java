@@ -129,6 +129,9 @@ public class DetalleFactura implements Serializable {
     }
 
     public BigDecimal getSubtotal() {
+        if (precio == null) {
+            return BigDecimal.ZERO;
+        }
         return precio.multiply(BigDecimal.valueOf(cantidad));
     }
 }
