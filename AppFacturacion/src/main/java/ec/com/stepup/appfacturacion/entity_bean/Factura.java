@@ -14,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,7 +56,7 @@ public class Factura implements Serializable {
     @JoinColumn(name = "id_cliente", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Cliente cliente;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "factura")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,  mappedBy = "factura", orphanRemoval = true)
     private List<DetalleFactura> detalleFacturaList;
 
     public Factura() {
@@ -150,6 +151,10 @@ public class Factura implements Serializable {
         }
         detalleFactura.setFactura(this);
         detalleFacturaList.add(detalleFactura);
+    }
+    
+    public void eliminarDetalle(DetalleFactura detalleFactura){
+        detalleFacturaList.remove(detalleFactura);
     }
 
     public boolean esProductoDulicado(Producto producto) {
