@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
@@ -40,6 +43,10 @@ public class FacturaBean implements Serializable {
         factura = new Factura();
         detalleFactura=new DetalleFactura();
     }
+    public void seleccionarFactura(Factura factura){
+        this.factura = factura;
+        detalleFactura=new DetalleFactura();
+    }
     
     public void grabar() {
         try {
@@ -48,6 +55,7 @@ public class FacturaBean implements Serializable {
             } else {
                 facturaFacadeLocal.edit(factura);
             }
+            init();
             Mensaje.mostrarExito("Factura grabada exitosamente.");
         } catch (Exception e) {
             Mensaje.mostrarError("Ocurrió un error al grabar la factura");
@@ -102,4 +110,13 @@ public class FacturaBean implements Serializable {
         detalleFactura.setPrecio(detalleFactura.getProducto().getPrecio());
     }
     
+    public void eliminar(Factura factura){
+        try {
+            facturaFacadeLocal.remove(factura);
+            init();
+            Mensaje.mostrarExito("Factura eliminada exitosamente.");
+        } catch (Exception e) {
+            Mensaje.mostrarError("Ocurrio un error al eliminar la factura.");
+        }
+    }
 }

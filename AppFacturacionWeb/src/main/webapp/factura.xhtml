@@ -18,7 +18,12 @@
                     
                     <p:panel rendered="#{facturaBean.factura == null}" header="Listado de Facturas">
                         <p:commandButton icon="ui-icon-plus" value="Nuevo" action="#{facturaBean.nuevo()}" update="form1"/>
-                        <p:dataTable value="#{facturaBean.facturaList}" var="fac" emptyMessage="No existen datos.">
+                        <p:dataTable id="dtFacturas" value="#{facturaBean.facturaList}" var="fac" emptyMessage="No existen datos.">
+                            <p:column headerText="Acciones">
+                                <p:commandButton icon="ui-icon-pencil" action="#{facturaBean.seleccionarFactura(fac)}" update="form1"/>
+                                <p:commandButton icon="ui-icon-trash" action="#{facturaBean.eliminar(fac)}" update="dtFacturas"/>
+                            </p:column>
+                            
                             <p:column headerText="Id.">
                                 <h:outputLabel value="#{fac.id}"/>
                             </p:column>
@@ -28,10 +33,10 @@
                             <p:column headerText="Cliente">
                                 <h:outputLabel value="#{fac.cliente.nombresCompletos}"/>
                             </p:column>                       
-                            <p:column headerText="Subtotal">
+                            <p:column rendered="true" headerText="Subtotal">
                                 <h:outputLabel value="#{fac.subtotal}"/>
                             </p:column>                       
-                            <p:column headerText="Total">
+                            <p:column rendered="true" headerText="Total">
                                 <h:outputLabel value="#{fac.total}"/>
                             </p:column>                       
                         </p:dataTable>
@@ -43,6 +48,11 @@
                             <p:outputLabel value="Id." for="txtId"/>
                             <p:inputText id="txtId" value="#{facturaBean.factura.id}" disabled="true"/>
                             <p:message for="txtId"/>
+                            
+                            <p:outputLabel value="Número:" for="txtNumero"/>
+                            <p:inputText id="txtNumero" value="#{facturaBean.factura.numero}" required="true"/>
+                            <p:message for="txtNumero"/>
+                            
 
                             <p:outputLabel value="Fecha:" for="txtFecha"/>
                             <p:calendar id="txtFecha" value="#{facturaBean.factura.fecha}" required="true"/>
@@ -107,6 +117,9 @@
                         </h:panelGrid>
 
                         <p:dataTable id="dtDetalles" value="#{facturaBean.factura.detalleFacturaList}" var="det" emptyMessage="No existen registros">
+                            <p:column headerText="Eliminar">
+                                <p:commandButton icon="ui-icon-trash" action="#{facturaBean.factura.eliminarDetalle(det)}" update="dtDetalles" process="@this"/>
+                            </p:column>
                             <p:column headerText="Producto">
                                 <h:outputLabel value="#{det.producto.nombre}"/>
                             </p:column>
@@ -123,7 +136,7 @@
 
 
                         <h:panelGrid columns="2">
-                            <p:commandButton icon="ui-icon-disk" value="Grabar" action="#{facturaBean.grabar()}" update="form1"/>
+                            <p:commandButton icon="ui-icon-disk" value="Grabar" action="#{facturaBean.grabar()}" update="form1" process="@this, panelCabFactura"/>
                             <p:commandButton icon="ui-icon-close" value="Cancelar" action="#{facturaBean.init()}" update="form1" immediate="true"/>
                         </h:panelGrid>
 
