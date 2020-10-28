@@ -65,7 +65,7 @@ public class Cliente implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "correo")
     private String correo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente")
     private List<Factura> facturaList;
 
     public Cliente() {

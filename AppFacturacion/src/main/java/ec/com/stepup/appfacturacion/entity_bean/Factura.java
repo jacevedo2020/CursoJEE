@@ -56,7 +56,10 @@ public class Factura implements Serializable {
     @JoinColumn(name = "id_cliente", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Cliente cliente;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,  mappedBy = "factura", orphanRemoval = true)
+    /*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,  mappedBy = "factura", orphanRemoval = true)
+    private List<DetalleFactura> detalleFacturaList;*/
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
+    @JoinColumn(name = "id_factura")
     private List<DetalleFactura> detalleFacturaList;
 
     public Factura() {
@@ -149,7 +152,7 @@ public class Factura implements Serializable {
         if (detalleFacturaList == null) {
             detalleFacturaList = new ArrayList<>();
         }
-        detalleFactura.setFactura(this);
+        //detalleFactura.setFactura(this);
         detalleFacturaList.add(detalleFactura);
     }
     

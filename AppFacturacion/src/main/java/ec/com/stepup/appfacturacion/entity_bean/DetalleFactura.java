@@ -43,9 +43,9 @@ public class DetalleFactura implements Serializable {
     @NotNull
     @Column(name = "precio")
     private BigDecimal precio;
-    @JoinColumn(name = "id_factura", referencedColumnName = "id")
+    /*@JoinColumn(name = "id_factura", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Factura factura;
+    private Factura factura;*/
     @JoinColumn(name = "id_producto", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Producto producto;
@@ -87,13 +87,13 @@ public class DetalleFactura implements Serializable {
         this.precio = precio;
     }
 
-    public Factura getFactura() {
+    /*public Factura getFactura() {
         return factura;
     }
 
     public void setFactura(Factura factura) {
         this.factura = factura;
-    }
+    }*/
 
     public Producto getProducto() {
         return producto;
