@@ -4,12 +4,15 @@ import ec.com.stepup.appfacturacion.entity_bean.Cliente;
 import ec.com.stepup.appfacturacion.entity_bean.DetalleFactura;
 import ec.com.stepup.appfacturacion.entity_bean.Factura;
 import ec.com.stepup.appfacturacion.session_bean.FacturaFacadeLocal;
+import ec.com.stepup.appfacturacionweb.util.JasperReportUtil;
 import ec.com.stepup.appfacturacionweb.util.Mensaje;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -17,6 +20,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
@@ -29,6 +33,10 @@ public class FacturaBean implements Serializable {
     @EJB
     private FacturaFacadeLocal facturaFacadeLocal;
     private DetalleFactura detalleFactura;
+
+    @Inject
+    private JasperReportUtil jasperReportUtil;
+
     
     public FacturaBean() {
     }
@@ -119,4 +127,23 @@ public class FacturaBean implements Serializable {
             Mensaje.mostrarError("Ocurrio un error al eliminar la factura.");
         }
     }
+    
+    
+    
+    public void exportarPDF(){
+        try {
+            jasperReportUtil.exportToPdf("FacturaCab", null);
+        } catch (Exception ex) {
+            Mensaje.mostrarError("Ocurrió un error al exportar el reporte}");
+        }
+    }
+
+    public void exportarPDF2(){
+        try {
+            jasperReportUtil.exportToPdf("FacturaCab2", null, facturaList);
+        } catch (Exception ex) {
+            Mensaje.mostrarError("Ocurrió un error al exportar el reporte}");
+        }
+    }
+
 }

@@ -30,8 +30,8 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 @ApplicationScoped
 public class JasperReportUtil {
 
-    @Resource(lookup = "java:/eeqDS")
-    private DataSource eeqDS;
+    @Resource(lookup = "java:/facturacionDS")
+    private DataSource facturacionDS;
 
     public JasperReportUtil() {
     }
@@ -42,7 +42,7 @@ public class JasperReportUtil {
         ServletContext sContext = (ServletContext) eContext.getContext();
         HttpServletResponse response = (HttpServletResponse) eContext.getResponse();
 
-        String pathReportes = sContext.getRealPath("reportes");
+        String pathReportes = sContext.getRealPath("reports");
 
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("SUBREPORT_DIR", pathReportes);
@@ -82,7 +82,7 @@ public class JasperReportUtil {
     }
 
     public void exportToPdf(final String nombreReporte, Map<String, Object> params) throws Exception {
-        try (Connection conn = eeqDS.getConnection()) {
+        try (Connection conn = facturacionDS.getConnection()) {
             export(nombreReporte, TipoReporte.PDF, params, conn);
         }
     }
@@ -93,7 +93,7 @@ public class JasperReportUtil {
     }
 
     public void exportToXlsx(final String nombreReporte, Map<String, Object> params) throws Exception {
-        try (Connection conn = eeqDS.getConnection()) {
+        try (Connection conn = facturacionDS.getConnection()) {
             export(nombreReporte, TipoReporte.XLSX, params, conn);
         }
     }
