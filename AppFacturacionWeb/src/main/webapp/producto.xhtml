@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Producto</title>
+        <title>#{msg.producto}</title>
     </h:head>
     <h:body>
         <h:form id="form1">
@@ -16,7 +16,7 @@
             </p:confirmDialog>
             
             
-            <p:panel header="Listado de Productos" rendered="#{productoBean.producto == null}">
+            <p:panel header="#{msg.listadoProductos}" rendered="#{productoBean.producto == null}">
                 <p:commandButton value="Nuevo" icon="ui-icon-plus" action="#{productoBean.nuevo()}" update="form1"/>
                 <p:dataTable id="dtProductos" value="#{productoBean.productoList}" var="prod"
                              emptyMessage="No existen datos.">
@@ -85,8 +85,8 @@
                 </h:panelGrid>
                 
                 <h:panelGrid columns="2">
-                    <p:commandButton value="Grabar" icon="ui-icon-disk" action="#{productoBean.grabar()}" update="form1"/>
-                    <p:commandButton value="Cancelar" icon="ui-icon-close" action="#{productoBean.init()}" update="form1"
+                    <p:commandButton value="#{msg.grabar}" icon="ui-icon-disk" action="#{productoBean.grabar()}" update="form1"/>
+                    <p:commandButton value="#{msg.cancelar}" icon="ui-icon-close" action="#{productoBean.init()}" update="form1"
                                      immediate="true"/>
                 </h:panelGrid>
                 

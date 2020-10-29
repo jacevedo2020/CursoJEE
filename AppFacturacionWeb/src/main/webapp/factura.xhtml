@@ -20,7 +20,7 @@
                         
                         
                         <h:panelGrid columns="3">
-                            <p:commandButton icon="ui-icon-plus" value="Nuevo" action="#{facturaBean.nuevo()}" update="form1"/>
+                            <p:commandButton icon="ui-icon-plus" value="#{msg.nuevo}" action="#{facturaBean.nuevo()}" update="form1"/>
                             
                             <h:commandLink action="#{facturaBean.exportarPDF()}" value="Exportar"  target="_blank">
                             </h:commandLink>
@@ -149,8 +149,8 @@
 
 
                         <h:panelGrid columns="2">
-                            <p:commandButton icon="ui-icon-disk" value="Grabar" action="#{facturaBean.grabar()}" update="form1" process="@this, panelCabFactura"/>
-                            <p:commandButton icon="ui-icon-close" value="Cancelar" action="#{facturaBean.init()}" update="form1" immediate="true"/>
+                            <p:commandButton icon="ui-icon-disk" value="#{msg.grabar}" action="#{facturaBean.grabar()}" update="form1" process="@this, panelCabFactura"/>
+                            <p:commandButton icon="ui-icon-close" value="#{msg.cancelar}" action="#{facturaBean.init()}" update="form1" immediate="true"/>
                         </h:panelGrid>
 
 

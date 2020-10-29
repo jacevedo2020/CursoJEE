@@ -5,6 +5,7 @@ import ec.com.stepup.appfacturacion.session_bean.ProductoFacadeLocal;
 import ec.com.stepup.appfacturacionweb.util.Mensaje;
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -45,7 +46,7 @@ public class ProductoBean implements Serializable {
                 productoFacadeLocal.edit(producto);
             }
             init();
-            Mensaje.mostrarExito("Producto grabado exitosamente.");
+            Mensaje.mostrarExito(ResourceBundle.getBundle("ec.com.stepup.appfacturacionweb.recursos.messages").getString("productoExitoso"));
         } catch (Exception e) {
             Mensaje.mostrarError("Ocurrió un error al grabar el producto.");
         }

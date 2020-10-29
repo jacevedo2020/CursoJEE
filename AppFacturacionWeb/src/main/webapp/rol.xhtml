@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="plantilla.xhtml">
+            <ui:define name="contenido">
+                <h:form id="form1">
+                    <p:panel header="Listado de Roles" rendered="#{rolBean.rol == null}">
+                        <p:commandButton value="#{msg.nuevo}" action="#{rolBean.nuevo()}" update="form1"/>
+                        <p:dataTable id="dtRoles" value="#{rolBean.rolList}" var="rol">
+                            <p:column headerText="Acciones">
+                                <p:commandButton icon="ui-icon-pencil" action="#{rolBean.setRol(rol)}" update="form1"/>
+                                <p:commandButton icon="ui-icon-trash" action="#{rolBean.eliminar(rol)}" update="dtRoles"/>
+                            </p:column>
+                            <p:column headerText="Id.">
+                                <h:outputLabel value="#{rol.id}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputLabel value="#{rol.nombre}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    
+                    
+                    <p:panel header="Edición de Rol"  rendered="#{rolBean.rol != null}">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="Id."/>
+                            <p:inputText id="txtId" value="#{rolBean.rol.id}" disabled="true"/>
+                            <p:spacer/>
+
+                            <p:outputLabel value="Nombre" for="txtNombre"/>
+                            <p:inputText id="txtNombre" value="#{rolBean.rol.nombre}" required="true"/>
+                            <p:message for="txtNombre"/>
+                            
+                            <p:commandButton value="#{msg.grabar}" action="#{rolBean.grabar()}" update="form1"/>
+                            <p:commandButton value="#{msg.cancelar}" action="#{rolBean.init()}" update="form1" immediate="true"/>
+                            
+                            
+                        </h:panelGrid>
+                        <p:commandButton value="Agregar Opción" action="#{rolBean.abrirSeleccionOpciones()}" oncomplete="PF('dlgOpciones').show();"/>
+                        <p:dataTable value="#{rolBean.rol.rolOpcionList}" var="rolOp">
+                            <p:column headerText="Eliminar">
+                                <p:commandButton icon="ui-icon-trash"/>
+                            </p:column>
+                            <p:column headerText="Id.">
+                                <h:outputLabel value="#{rolOp.opcion.id}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputLabel value="#{rolOp.opcion.nombre}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+                
+                
+                <p:dialog id="dlgOpciones"
+                          widgetVar=dlgOpciones"
+                          modal="true">
+                    <h:form>
+                        <p:dataTable value="#{rolBean.opcionList}" var="opcion">
+                            <p:column headerText="Seleccionar">
+                                <p:selectBooleanCheckbox value="#{opcion.seleccionado}"/>
+                            </p:column>
+                            <p:column headerText="Id.">
+                                <h:outputLabel value="#{opcion.id}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputLabel value="#{opcion.nombre}"/>
+                            </p:column>
+                            
+                        </p:dataTable>
+                        <h:panelGrid columns="">
+                        </h:panelGrid>
+                            
+                        
+                    </h:form>
+                </p:dialog>
+                
+                
+                
+                
+            </ui:define>
+            
+        </ui:composition>
+        
+    </h:body>
+</html>
+
