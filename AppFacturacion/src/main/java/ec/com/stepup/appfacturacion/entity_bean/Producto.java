@@ -41,7 +41,7 @@ public class Producto implements Serializable {
     @NotNull
     @Column(name = "precio")
     private BigDecimal precio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
+    @OneToMany(mappedBy = "producto")
     private List<DetalleFactura> detalleFacturaList;
 
     private static final long serialVersionUID = 1L;

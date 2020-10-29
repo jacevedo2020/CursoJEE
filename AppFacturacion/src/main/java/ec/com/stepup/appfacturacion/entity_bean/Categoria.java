@@ -30,7 +30,7 @@ public class Categoria implements Serializable {
     @Size(max = 50)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
+    @OneToMany(mappedBy = "categoria")
     private List<Producto> productoList;
 
     private static final long serialVersionUID = 1L;
