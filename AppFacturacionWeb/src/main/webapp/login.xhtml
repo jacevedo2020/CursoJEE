@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+    </h:head>
+    <h:body>
+        <h:form prependId="false">
+            <p:panel>
+                <f:facet name="header">
+                    <center>
+                        <p:outputLabel value="INGRESO AL SISTEMA" style="font-weight: bold; font-size: 15px; color: #1d5188"/>
+                    </center>
+                </f:facet>
+                <center>
+                    <h:panelGrid columns="2" columnClasses="top, top">
+
+                        <p:panel style="text-align: center">
+
+                            <h:panelGrid columns="2" style="border-bottom-width: 0px;" columnClasses="etiqueta" cellpadding="6" cellspacing="3">
+                                <p:outputLabel value="#{msg.usuario}:" for="username"/>
+                                <h:panelGroup>
+                                    <p:inputText value="#{loginBean.username}" id="username" required="true" requiredMessage="Campo obligatorio"/>
+                                    <p:message for="username"/>
+                                </h:panelGroup>
+                                <p:outputLabel value="Contraseña:" for="password"/>
+                                <h:panelGroup>
+                                    <p:password value="#{loginBean.password}" id="password" required="true" requiredMessage="Campo obligatorio"/>
+                                    <p:message for="password"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                            <p:spacer height="10px" width="10px">  </p:spacer>
+                            <p:separator/>
+                            <p:commandButton icon="fa fa-arrow-circle-right" action="#{loginBean.login()}" value="Ingresar" ajax="false"/> 
+                            <c:if test="${'fail' eq param.auth}">
+                                <div style="color:red; font-weight: bold">
+                                    Usuario o Contraseña incorrecta
+                                </div>
+
+                            </c:if>
+                        </p:panel>
+
+                    </h:panelGrid>
+                </center>
+
+            </p:panel>
+        </h:form>
+        
+    </h:body>
+</html>
