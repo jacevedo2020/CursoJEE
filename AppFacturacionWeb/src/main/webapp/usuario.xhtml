@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="plantilla.xhtml">
+            <ui:define name="contenido">
+                <h:form id="form1">
+                    <p:panel header="Listado de Usuario" rendered="#{usuarioBean.usuario == null}">
+                        <p:commandButton value="#{msg.nuevo}" action="#{usuarioBean.nuevo()}" update="form1"/>
+                        <p:dataTable id="dtUsuarios" value="#{usuarioBean.usuarioList}" var="usu">
+                            <p:column headerText="Acciones">
+                                <p:commandButton icon="ui-icon-pencil" action="#{usuarioBean.setUsuario(usu)}" update="form1"/>
+                                <p:commandButton icon="ui-icon-trash" action="#{usuarioBean.eliminar(usu)}" update="dtUsuarios"/>
+                            </p:column>
+                            <p:column headerText="Id.">
+                                <h:outputLabel value="#{usu.id}"/>
+                            </p:column>
+                            <p:column headerText="Cédula">
+                                <h:outputLabel value="#{usu.cedula}"/>
+                            </p:column>
+                            <p:column headerText="Nombres">
+                                <h:outputLabel value="#{usu.nombres}"/>
+                            </p:column>
+                            <p:column headerText="Apellidos">
+                                <h:outputLabel value="#{usu.apellidos}"/>
+                            </p:column>
+                            <p:column headerText="Usuario">
+                                <h:outputLabel value="#{usu.login}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    
+                    
+                    <p:panel header="Edición de Usuario"  rendered="#{usuarioBean.usuario != null}">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="Id."/>
+                            <p:inputText id="txtId" value="#{usuarioBean.usuario.id}" disabled="true"/>
+                            <p:spacer/>
+
+                            <p:outputLabel value="Cédula:" for="txtCedula"/>
+                            <p:inputText id="txtCedula" value="#{usuarioBean.usuario.cedula}" required="true"/>
+                            <p:message for="txtCedula"/>
+                            
+                            
+                            <p:outputLabel value="Nombres:" for="txtNombres"/>
+                            <p:inputText id="txtNombres" value="#{usuarioBean.usuario.nombres}" required="true"/>
+                            <p:message for="txtNombres"/>
+                            
+                            <p:outputLabel value="Apellidos:" for="txtApellidos"/>
+                            <p:inputText id="txtApellidos" value="#{usuarioBean.usuario.apellidos}" required="true"/>
+                            <p:message for="txtApellidos"/>
+                            
+                            <p:outputLabel value="Usuario:" for="txtUsuario"/>
+                            <p:inputText id="txtUsuario" value="#{usuarioBean.usuario.login}" required="true"/>
+                            <p:message for="txtUsuario"/>
+                            
+                            <p:outputLabel value="Clave:" for="txtClave"/>
+                            <p:password id="txtClave" value="#{usuarioBean.usuario.password}" required="true"/>
+                            <p:message for="txtClave"/>
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Roles:"/>
+                            <p:commandButton icon="ui-icon-plus" action="#{usuarioBean.abrirSeleccionRoles()}" 
+                                             oncomplete="PF('dlgRoles').show();" 
+                                             update="dlgRoles"/>
+                        </h:panelGrid>
+                        
+                        <p:dataTable id="dtRoles" value="#{usuarioBean.usuario.rolUsuarioList}" var="rolUsu">
+                            <p:column headerText="Eliminar">
+                                <p:commandButton icon="ui-icon-trash" action="#{usuarioBean.usuario.rolUsuarioList.remove(rolUsu)}" update="dtRoles"/>
+                            </p:column>
+                            <p:column headerText="Id.">
+                                <h:outputLabel value="#{rolUsu.rol.id}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputLabel value="#{rolUsu.rol.nombre}"/>
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="#{msg.grabar}" action="#{usuarioBean.grabar()}" update="form1"/>
+                            <p:commandButton value="#{msg.cancelar}" action="#{usuarioBean.init()}" update="form1" immediate="true"/>
+                        </h:panelGrid>
+                        
+                    </p:panel>
+                </h:form>
+                
+                
+                <p:dialog id="dlgRoles"
+                          widgetVar="dlgRoles"
+                          modal="true"
+                          appendTo="@(body)"
+                          header="Selección de roles">
+                    <h:form>
+                        
+                        <p:dataTable value="#{usuarioBean.rolList}" var="rol">
+                            <p:column headerText="Seleccionar">
+                                <p:selectBooleanCheckbox value="#{rol.seleccionado}"/>
+                            </p:column>
+                            <p:column headerText="Id.">
+                                <h:outputLabel value="#{rol.id}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputLabel value="#{rol.nombre}"/>
+                            </p:column>
+                            
+                        </p:dataTable>
+                        
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="Aceptar" action="#{usuarioBean.confirmarSeleccionRoles()}" update="form1:dtRoles"
+                                             oncomplete="PF('dlgRoles').hide(); "/>
+                            <p:commandButton value="Cancelar" onclick="PF('dlgRoles').hide();"/>
+                        </h:panelGrid>
+                        
+                    </h:form>
+                </p:dialog>
+                
+                
+                
+                
+            </ui:define>
+            
+        </ui:composition>
+        
+    </h:body>
+</html>
+

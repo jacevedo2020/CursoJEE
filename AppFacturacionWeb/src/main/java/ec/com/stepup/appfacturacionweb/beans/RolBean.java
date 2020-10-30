@@ -16,7 +16,7 @@ import org.primefaces.PrimeFaces;
 @Named(value = "rolBean")
 @ViewScoped
 public class RolBean implements Serializable {
-
+    
     private List<Rol> rolList;
     private Rol rol;
     @EJB
@@ -24,20 +24,20 @@ public class RolBean implements Serializable {
     private List<Opcion> opcionList;
     @EJB
     private OpcionFacadeLocal opcionFacadeLocal;
-
+    
     public RolBean() {
     }
-
+    
     @PostConstruct
     public void init() {
         rolList = rolFacadeLocal.findAll();
         rol = null;
     }
-
+    
     public void nuevo() {
         rol = new Rol();
     }
-
+    
     public void grabar() {
         if (rol.getId() == null) {
             rolFacadeLocal.create(rol);
@@ -46,43 +46,46 @@ public class RolBean implements Serializable {
         }
         init();
     }
-    public void eliminar(Rol rol){
+
+    public void eliminar(Rol rol) {
         rolFacadeLocal.remove(rol);
         init();
     }
-
+    
     public List<Rol> getRolList() {
         return rolList;
     }
-
+    
     public void setRolList(List<Rol> rolList) {
         this.rolList = rolList;
     }
-
+    
     public Rol getRol() {
         return rol;
     }
-
+    
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-
+    
     public List<Opcion> getOpcionList() {
         return opcionList;
     }
-
+    
     public void setOpcionList(List<Opcion> opcionList) {
         this.opcionList = opcionList;
     }
     
-    
-    public void abrirSeleccionOpciones(){
+    public void abrirSeleccionOpciones() {
         opcionList = opcionFacadeLocal.findAll()
                 .stream()
-                .filter(op->op.getOpcionPadre() != null)
+                .filter(op -> op.getOpcionPadre() != null)
                 .collect(Collectors.toList());
         //PrimeFaces.current().executeScript("PF('dlgOpciones').show");
     }
-
+    
+    public void confirmarSeleccionOpciones() {
+        opcionList.stream().filter(op -> op.isSeleccionado()).forEach(op -> rol.agregarOpcion(op));
+    }
     
 }
