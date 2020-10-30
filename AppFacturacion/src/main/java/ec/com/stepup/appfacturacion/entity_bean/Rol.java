@@ -6,6 +6,7 @@
 package ec.com.stepup.appfacturacion.entity_bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,11 +46,14 @@ public class Rol implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", orphanRemoval = true)
     private List<RolOpcion> rolOpcionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
+    @OneToMany(mappedBy = "rol")
     private List<RolUsuario> rolUsuarioList;
 
+    @Transient
+    private boolean seleccionado;
+    
     public Rol() {
     }
 
@@ -117,5 +122,27 @@ public class Rol implements Serializable {
     public String toString() {
         return "ec.com.stepup.appfacturacion.entity_bean.Rol[ id=" + id + " ]";
     }
+
+    public void agregarOpcion(Opcion opcion) {
+        if (rolOpcionList == null) {
+            rolOpcionList = new ArrayList<>();
+        }
+        RolOpcion rolOpcion = new RolOpcion();
+        rolOpcion.setOpcion(opcion);
+        rolOpcion.setRol(this);
+        rolOpcionList.add(rolOpcion);
+    }
+    public void eliminarOpcion(RolOpcion rolOpcion){
+        rolOpcionList.remove(rolOpcion);
+    }
+
+    public boolean isSeleccionado() {
+        return seleccionado;
+    }
+
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
+    }
+    
     
 }

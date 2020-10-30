@@ -6,6 +6,7 @@
 package ec.com.stepup.appfacturacion.entity_bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -64,7 +65,7 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 1000)
     @Column(name = "password")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", orphanRemoval = true)
     private List<RolUsuario> rolUsuarioList;
 
     public Usuario() {
@@ -161,5 +162,16 @@ public class Usuario implements Serializable {
     public String toString() {
         return "ec.com.stepup.appfacturacion.entity_bean.Usuario[ id=" + id + " ]";
     }
-    
+
+    public void agregarRol(Rol rol) {
+        if (rolUsuarioList == null) {
+            rolUsuarioList = new ArrayList<>();
+        }
+        RolUsuario rolUsuario = new RolUsuario(rol, this);
+        rolUsuarioList.add(rolUsuario);
+    }
+    /*public void eliminarRol(RolUsuario rolUsuario){
+        rolUsuarioList.remove(rolUsuario);
+    }*/
+
 }

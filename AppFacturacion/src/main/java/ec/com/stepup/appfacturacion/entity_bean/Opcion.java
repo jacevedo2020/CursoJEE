@@ -58,7 +58,7 @@ public class Opcion implements Serializable {
     @JoinColumn(name = "id_padre", referencedColumnName = "id")
     @ManyToOne
     private Opcion opcionPadre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "opcion")
+    @OneToMany(mappedBy = "opcion")
     private List<RolOpcion> rolOpcionList;
     
     @Transient
