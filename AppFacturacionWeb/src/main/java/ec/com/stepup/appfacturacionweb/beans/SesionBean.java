@@ -2,6 +2,7 @@ package ec.com.stepup.appfacturacionweb.beans;
 
 import ec.com.stepup.appfacturacion.entity_bean.Opcion;
 import ec.com.stepup.appfacturacion.entity_bean.Rol;
+import ec.com.stepup.appfacturacion.entity_bean.RolUsuario;
 import ec.com.stepup.appfacturacion.entity_bean.Usuario;
 import ec.com.stepup.appfacturacion.session_bean.UsuarioFacadeLocal;
 import java.io.Serializable;
@@ -59,9 +60,9 @@ public class SesionBean implements Serializable {
         this.menuModel = new DefaultMenuModel();
         try {
             List<Opcion> opcionesNivelCero = new ArrayList<>();
-            for (Rol p : usuario.getRolesList()) {
+            for (Rol p : usuario.getRolList()) {
                 opcionesNivelCero.addAll(p.getOpcionList().stream()
-                        .map(op -> op.getOpcionNivelCero())
+                        .map(op -> op.getOpcionPadre())
                         .distinct()
                         .collect(Collectors.toList()));
             }
@@ -88,8 +89,8 @@ public class SesionBean implements Serializable {
         try {
             List<Opcion> opcionesHijas = new ArrayList<>();
 
-            for (Rol p : usuario.getRolesList()) {
-                opcionesHijas.addAll(p.getOpcionList().stream()
+            for (RolUsuario p : usuario.getRolUsuarioList()) {
+                opcionesHijas.addAll(p.getRol().getOpcionList().stream()
                         .filter(op -> op.esOpcionPadre(opcionPadre))
                         .distinct()
                         .sorted()
@@ -99,7 +100,7 @@ public class SesionBean implements Serializable {
 
             long nroHijos = 0;
             for (Opcion opcion : opcionesHijas) {
-                for (Rol p : usuario.getRolesList()) {
+                for (Rol p : usuario.getRolList()) {
                     nroHijos = p.getOpcionList().stream()
                             .filter(op -> op.esOpcionPadre(opcion))
                             .count();

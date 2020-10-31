@@ -63,6 +63,11 @@
                             <p:outputLabel value="Clave:" for="txtClave"/>
                             <p:password id="txtClave" value="#{usuarioBean.usuario.password}" required="true"/>
                             <p:message for="txtClave"/>
+                            
+                            <p:outputLabel value="Clave expirada:" for="txtClaveExpirada"/>
+                            <p:selectBooleanButton id="txtClaveExpirada" onLabel="Si" offLabel="No" value="#{usuarioBean.usuario.passwordExpirado}" required="true"/>
+                            <p:message for="txtClaveExpirada"/>
+                            
 
                         </h:panelGrid>
                         <h:panelGrid columns="2">

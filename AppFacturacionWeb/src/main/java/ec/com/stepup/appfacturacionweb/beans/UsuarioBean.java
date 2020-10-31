@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Named(value = "usuarioBean")
 @ViewScoped
@@ -37,6 +38,9 @@ public class UsuarioBean implements Serializable {
     }
     
     public void grabar() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        usuario.setPassword(encoder.encode(usuario.getPassword()));
+        
         if (usuario.getId() == null) {
             usuarioFacadeLocal.create(usuario);
         } else {

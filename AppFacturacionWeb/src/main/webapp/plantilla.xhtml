@@ -13,11 +13,14 @@
         <h:body>
             <p:layout fullPage="true">
                 <p:layoutUnit position="north" size="100">
-                    <h:panelGrid columns="4" style="width: 100%">
+                    <h:panelGrid columns="6" style="width: 100%">
                         <img src="imagenes/logoEmpresa.jpg" alt="" width="50"/>
                         <h:outputLabel value="SISTEMA DE FACTURACION 1.0"/>
                         <h:outputLabel value="Usuario:"/>
-
+                        <h:outputLabel value="#{sesionBean.usuario.nombres} #{sesionBean.usuario.apellidos}"/>
+                        <h:form onsubmit="this.action = '#{request.contextPath}/logout';">
+                            <p:commandLink value="Cerrar Sesión" ajax="false"></p:commandLink>
+                        </h:form>
                         <h:form>
                             <h:panelGrid columns="2">
                                 <p:outputLabel value="Idioma:"/>
@@ -31,7 +34,7 @@
                 </p:layoutUnit>
                 <p:layoutUnit position="west">
                     <h:form>
-                        <p:menu>
+                        <!--p:menu>
                             <p:submenu label="Configuraciones">
                                 <p:menuitem value="Impuestos"/>
                                 <p:menuitem value="Feriados"/>
@@ -45,7 +48,10 @@
                             <p:submenu label="Procesos">
                                 <p:menuitem value="Facturación" outcome="factura.xhtml"/>
                             </p:submenu>
-                        </p:menu>
+                        </p:menu-->
+
+                        <p:menu  model="#{sesionBean.menuModel}" style="background: transparent; border: 0;"/>
+
                     </h:form>
 
                 </p:layoutUnit>
