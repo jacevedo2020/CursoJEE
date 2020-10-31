@@ -1,6 +1,7 @@
 package ec.com.stepup.appfacturacionweb.security;
 
 import ec.com.stepup.appfacturacion.entity_bean.Rol;
+import ec.com.stepup.appfacturacion.entity_bean.RolUsuario;
 import ec.com.stepup.appfacturacion.entity_bean.Usuario;
 import ec.com.stepup.appfacturacion.session_bean.UsuarioFacadeLocal;
 import ec.com.stepup.appfacturacionweb.util.ResourceUtil;
@@ -34,9 +35,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         List<String> roles = new ArrayList<>();
-        for (Rol rol : usuario.getRolesList()) {
-            roles.add(rol.getNombre());
-        }
+        /*for (RolUsuario rolUsuario : usuario.getRolUsuarioList()) {
+            roles.add(rolUsuario.getRol().getNombre());
+        }*/
+        usuario.getRolUsuarioList().forEach(ru -> roles.add(ru.getRol().getNombre()));
         return new LoggedUser(usuario, roles);
     }
 

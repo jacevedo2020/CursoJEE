@@ -2,7 +2,6 @@ package ec.com.stepup.appfacturacionweb.beans;
 
 import ec.com.stepup.appfacturacion.entity_bean.Usuario;
 import ec.com.stepup.appfacturacion.session_bean.UsuarioFacadeLocal;
-import ec.com.stepup.appfacturacionweb.util.Mensaje;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class ChangePasswordBean implements Serializable {
 
     @EJB
-    private UsuarioFacadeLocal usuarioServicio;
+    private UsuarioFacadeLocal usuarioFacadeLocal;
 
     private String username;
     private String password;
@@ -31,11 +30,11 @@ public class ChangePasswordBean implements Serializable {
     }
 
     public void cambiarContrasenia() {
-        Usuario u = this.usuarioServicio.findByLogin(username);
+        Usuario u = this.usuarioFacadeLocal.findByLogin(username);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        u.setClave(passwordEncoder.encode(this.password));
-        u.setClaveExpirada(false);
-        this.usuarioServicio.edit(u);
+        u.setPassword(passwordEncoder.encode(this.password));
+        u.setPasswordExpirado(false);
+        this.usuarioFacadeLocal.edit(u);
         claveCambiada = true;
     }
 

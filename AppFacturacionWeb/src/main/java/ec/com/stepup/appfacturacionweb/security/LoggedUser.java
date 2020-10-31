@@ -30,7 +30,7 @@ public class LoggedUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getClave();
+        return user.getPassword();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class LoggedUser implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return !this.user.getClaveExpirada();
+        return !this.user.getPasswordExpirado();
     }
 
 
