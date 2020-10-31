@@ -38,12 +38,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password")})
 public class Usuario implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -65,6 +59,15 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 1000)
     @Column(name = "password")
     private String password;
+    @Column(name = "password_expirado")
+    private Boolean passwordExpirado;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", orphanRemoval = true)
     private List<RolUsuario> rolUsuarioList;
 
@@ -88,46 +91,6 @@ public class Usuario implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
-    public String getNombres() {
-        return nombres;
-    }
-
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public List<RolUsuario> getRolUsuarioList() {
@@ -170,8 +133,67 @@ public class Usuario implements Serializable {
         RolUsuario rolUsuario = new RolUsuario(rol, this);
         rolUsuarioList.add(rolUsuario);
     }
+
     /*public void eliminarRol(RolUsuario rolUsuario){
         rolUsuarioList.remove(rolUsuario);
     }*/
 
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getPasswordExpirado() {
+        return passwordExpirado;
+    }
+
+    public void setPasswordExpirado(Boolean passwordExpirado) {
+        this.passwordExpirado = passwordExpirado;
+    }
+
+    public List<Rol> getRolList() {
+        List<Rol> rolList = new ArrayList<>();
+        if (rolUsuarioList == null) {
+            return new ArrayList<>();
+        }
+        for (RolUsuario rolUsuario : rolUsuarioList) {
+            rolList.add(rolUsuario.getRol());
+        }
+        return rolList;
+    }
 }

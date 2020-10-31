@@ -35,7 +35,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Opcion.findById", query = "SELECT o FROM Opcion o WHERE o.id = :id"),
     @NamedQuery(name = "Opcion.findByNombre", query = "SELECT o FROM Opcion o WHERE o.nombre = :nombre"),
     @NamedQuery(name = "Opcion.findByUrl", query = "SELECT o FROM Opcion o WHERE o.url = :url")})
-public class Opcion implements Serializable {
+public class Opcion implements Serializable, Comparable<Opcion> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,7 +60,7 @@ public class Opcion implements Serializable {
     private Opcion opcionPadre;
     @OneToMany(mappedBy = "opcion")
     private List<RolOpcion> rolOpcionList;
-    
+
     @Transient
     private boolean seleccionado;
 
@@ -158,5 +158,15 @@ public class Opcion implements Serializable {
         this.seleccionado = seleccionado;
     }
 
-    
+    public boolean esOpcionPadre(Opcion opcion) {
+        if (opcionPadre == null) {
+            return false;
+        }
+        return opcionPadre.equals(opcion);
+    }
+
+    @Override
+    public int compareTo(Opcion o) {
+        return this.id.compareTo(o.id);
+    }
 }

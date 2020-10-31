@@ -8,7 +8,9 @@ package ec.com.stepup.appfacturacion.session_bean;
 import ec.com.stepup.appfacturacion.entity_bean.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
     public UsuarioFacade() {
         super(Usuario.class);
     }
-    
+
+    @Override
+    public Usuario findByLogin(String login) {
+        /*Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.login = :pLogin" );
+        q.setParameter("pLogin", login);*/
+        Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.login = ?1" );
+        q.setParameter(1, login);
+        try {
+            return (Usuario) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

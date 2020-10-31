@@ -144,5 +144,13 @@ public class Rol implements Serializable {
         this.seleccionado = seleccionado;
     }
     
-    
+    public List<Opcion> getOpcionList(){
+        List<Opcion> opcionList = new ArrayList<>();
+        if (rolOpcionList==null)
+            return new ArrayList<>();
+        for (RolOpcion rolOpcion : rolOpcionList) {
+            opcionList.add(rolOpcion.getOpcion());
+        }
+        return opcionList;
+    }
 }
