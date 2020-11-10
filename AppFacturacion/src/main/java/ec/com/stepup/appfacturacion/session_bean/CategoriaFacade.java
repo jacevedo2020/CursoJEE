@@ -2,11 +2,13 @@ package ec.com.stepup.appfacturacion.session_bean;
 
 import ec.com.stepup.appfacturacion.entity_bean.Categoria;
 import java.util.List;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @javax.ejb.Stateless
+@WebService(name = "Servicio3")
 public class CategoriaFacade extends AbstractFacade<Categoria> implements CategoriaFacadeLocal {
 
     @PersistenceContext(unitName = "facturacionPU")
@@ -31,6 +33,11 @@ public class CategoriaFacade extends AbstractFacade<Categoria> implements Catego
     public List<Categoria> findActivos() {
         Query q = em.createQuery("SELECT c FROM Categoria c WHERE UPPER(c.estado) = 'A' ORDER BY c.nombre");
         return q.getResultList();
+    }
+
+    @Override
+    public int count() {
+        return super.count(); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -13,9 +13,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "categoria")
+@XmlRootElement(name = "categoria")
 public class Categoria implements Serializable {
 
     @Basic(optional = false)
@@ -87,7 +90,7 @@ public class Categoria implements Serializable {
         return "ec.com.stepup.appfacturacion.entity_bean.Categoria[ id=" + id + " ]";
     }
 
-
+    @XmlTransient
     public List<Producto> getProductoList() {
         return productoList;
     }
